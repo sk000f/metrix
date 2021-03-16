@@ -1,3 +1,3 @@
-module github.com/sk000f/hexarch
+module github.com/sk000f/metrix
 
 go 1.16

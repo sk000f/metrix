@@ -3,30 +3,37 @@ package app
 import (
 	"time"
 
-	"github.com/sk000f/hexarch/core/ports"
+	"github.com/sk000f/metrix/core/ports"
 )
 
 type app struct {
-	metricsRepository ports.MetricsRepository
-	ciServer          ports.MetricsCIServer
+	repository ports.Repository
+	ciServer   ports.CIServer
 }
 
-func (a *app) CalculateDeploymentFrequencyForDateRangeAndProject(start *time.Time, end *time.Time, proj string) (float64, error) {
+func New(r ports.Repository, ci ports.CIServer) *app {
+	return &app{
+		repository: r,
+		ciServer:   ci,
+	}
+}
+
+func (a *app) CalculateDeploymentFrequencyForDateRangeAndProject(start time.Time, end time.Time, proj string) (float64, error) {
 	return 0.0, nil
 }
 
-func (a *app) CalculateLeadTimeForDateRangeAndProject(start *time.Time, end *time.Time, proj string) (*time.Time, error) {
-	return nil, nil
+func (a *app) CalculateLeadTimeForDateRangeAndProject(start time.Time, end time.Time, proj string) (time.Time, error) {
+	return time.Now(), nil
 }
 
-func (a *app) CalculateChangeFailRateForDateRangeAndProject(start *time.Time, end *time.Time, proj string) (float64, error) {
+func (a *app) CalculateChangeFailRateForDateRangeAndProject(start time.Time, end time.Time, proj string) (float64, error) {
 	return 0.0, nil
 }
 
-func (a *app) CalculateMTTRForDateRangeAndProject(start *time.Time, end *time.Time, proj string) (*time.Time, error) {
-	return nil, nil
+func (a *app) CalculateMTTRForDateRangeAndProject(start time.Time, end time.Time, proj string) (time.Time, error) {
+	return time.Now(), nil
 }
 
 func (a *app) UpdateDeployments() error { return nil }
 
-func (a *app) UpdateDeploymentsForDateRange(start *time.Time, end *time.Time) error { return nil }
+func (a *app) UpdateDeploymentsForDateRange(start time.Time, end time.Time) error { return nil }
