@@ -2,10 +2,10 @@ package app
 
 import (
 	"fmt"
-	"math"
 	"time"
 
 	"github.com/sk000f/metrix/core/ports"
+	"github.com/sk000f/metrix/internal/num"
 )
 
 type app struct {
@@ -37,7 +37,7 @@ func (a *app) DeploymentFrequency(proj string, start time.Time, end time.Time) (
 	// count number of deployments and divide by number of days
 	df := float64(len(dep)) / days
 
-	return Trunc2dp(df), nil
+	return num.Trunc2dp(df), nil
 }
 
 func (a *app) LeadTime(start time.Time, end time.Time, proj string) (time.Time, error) {
@@ -55,7 +55,3 @@ func (a *app) MTTR(start time.Time, end time.Time, proj string) (time.Time, erro
 func (a *app) UpdateDeployments() error { return nil }
 
 func (a *app) UpdateDeploymentsForDateRange(start time.Time, end time.Time) error { return nil }
-
-func Trunc2dp(f float64) float64 {
-	return math.Floor(f*100) / 100
-}
