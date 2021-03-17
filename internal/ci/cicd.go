@@ -1,4 +1,4 @@
-package ci
+package cicd
 
 type EnvironmentName string
 

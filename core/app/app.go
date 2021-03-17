@@ -6,7 +6,7 @@ import (
 
 	"github.com/sk000f/metrix/core/domain"
 	"github.com/sk000f/metrix/core/ports"
-	"github.com/sk000f/metrix/internal/ci"
+	cicd "github.com/sk000f/metrix/internal/ci"
 	"github.com/sk000f/metrix/internal/num"
 )
 
@@ -39,7 +39,7 @@ func (a *app) DeploymentFrequency(proj string, start time.Time, end time.Time) (
 	// we only want to count deployments to the production environment
 	var pDep []domain.Deployment
 	for _, d := range dep {
-		if d.EnvironmentName == ci.Production {
+		if d.EnvironmentName == cicd.Production {
 			pDep = append(pDep, d)
 		}
 	}
