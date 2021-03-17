@@ -4,7 +4,9 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/sk000f/metrix/core/domain"
 	"github.com/sk000f/metrix/core/ports"
+	"github.com/sk000f/metrix/internal/ci"
 	"github.com/sk000f/metrix/internal/num"
 )
 
@@ -34,8 +36,16 @@ func (a *app) DeploymentFrequency(proj string, start time.Time, end time.Time) (
 	// calculate whole days within specified date range
 	days := end.Sub(start).Hours() / 24
 
+	// we only want to count deployments to the production environment
+	var pDep []domain.Deployment
+	for _, pd := range dep {
+		if pd.EnvironmentName == ci.Production {
+			pDep = append(pDep, pd)
+		}
+	}
+
 	// count number of deployments and divide by number of days
-	df := float64(len(dep)) / days
+	df := float64(len(pDep)) / days
 
 	return num.Trunc2dp(df), nil
 }
