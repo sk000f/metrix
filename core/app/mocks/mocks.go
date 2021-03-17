@@ -4,6 +4,7 @@ import (
 	"time"
 
 	"github.com/sk000f/metrix/core/domain"
+	"github.com/sk000f/metrix/internal/ci"
 )
 
 type RepositoryMock struct {
@@ -28,7 +29,7 @@ func (mR *RepositoryMock) GetByProjectAndDateRange(proj string, start time.Time,
 	var dep []domain.Deployment
 
 	for _, d := range mR.data {
-		if d.ProjectName == proj && d.FinishedAt.After(start) && d.FinishedAt.Before(end) && d.EnvironmentName == "production" {
+		if d.ProjectName == proj && d.FinishedAt.After(start) && d.FinishedAt.Before(end) && d.EnvironmentName == ci.Production {
 			dep = append(dep, d)
 		}
 	}
