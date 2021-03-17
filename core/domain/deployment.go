@@ -12,5 +12,5 @@ type Deployment struct {
 	ProjectNamespace string    `json:"projectNamespace"`
 	PipelineID       int       `json:"pipelineId"`
 	FinishedAt       time.Time `json:"finishedAt"`
-	Duration         float64   `json:"duration"`
+	Duration         int       `json:"duration"`
 }

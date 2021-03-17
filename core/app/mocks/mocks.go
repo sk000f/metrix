@@ -23,7 +23,17 @@ func (mR *RepositoryMock) GetByDateRange(start time.Time, end time.Time) ([]doma
 }
 
 func (mR *RepositoryMock) GetByProjectAndDateRange(proj string, start time.Time, end time.Time) ([]domain.Deployment, error) {
-	return nil, nil
+
+	// logic to filter data based on params
+	var dep []domain.Deployment
+
+	for _, d := range mR.data {
+		if d.ProjectName == proj && d.FinishedAt.After(start) && d.FinishedAt.Before(end) {
+			dep = append(dep, d)
+		}
+	}
+
+	return dep, nil
 }
 
 func (mR *RepositoryMock) Update([]domain.Deployment) error {

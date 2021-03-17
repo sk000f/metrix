@@ -1,39 +1,61 @@
 package app
 
 import (
+	"fmt"
+	"math"
 	"time"
 
 	"github.com/sk000f/metrix/core/ports"
 )
 
 type app struct {
-	repository ports.Repository
-	ciServer   ports.CIServer
+	r  ports.Repository
+	ci ports.CIServer
 }
 
 func New(r ports.Repository, ci ports.CIServer) *app {
 	return &app{
-		repository: r,
-		ciServer:   ci,
+		r:  r,
+		ci: ci,
 	}
 }
 
-func (a *app) CalculateDeploymentFrequencyForDateRangeAndProject(start time.Time, end time.Time, proj string) (float64, error) {
-	return 0.0, nil
+// DeploymentFrequency calculates how many times per day a deployment to a production
+// environment occurs, for the specified date range and project name
+func (a *app) DeploymentFrequency(proj string, start time.Time, end time.Time) (float64, error) {
+
+	dep, err := a.r.GetByProjectAndDateRange(proj, start, end)
+
+	if err != nil {
+		fmt.Print(err.Error())
+		return 0.0, err
+	}
+
+	// calculate whole days within specified date range
+	days := end.Sub(start).Hours() / 24
+
+	// count number of deployments and divide by number of days
+	df := float64(len(dep)) / days
+
+	return Trunc2dp(df), nil
 }
 
-func (a *app) CalculateLeadTimeForDateRangeAndProject(start time.Time, end time.Time, proj string) (time.Time, error) {
+func (a *app) LeadTime(start time.Time, end time.Time, proj string) (time.Time, error) {
 	return time.Now(), nil
 }
 
-func (a *app) CalculateChangeFailRateForDateRangeAndProject(start time.Time, end time.Time, proj string) (float64, error) {
+func (a *app) ChangeFailRate(start time.Time, end time.Time, proj string) (float64, error) {
 	return 0.0, nil
 }
 
-func (a *app) CalculateMTTRForDateRangeAndProject(start time.Time, end time.Time, proj string) (time.Time, error) {
+func (a *app) MTTR(start time.Time, end time.Time, proj string) (time.Time, error) {
 	return time.Now(), nil
 }
 
 func (a *app) UpdateDeployments() error { return nil }
 
 func (a *app) UpdateDeploymentsForDateRange(start time.Time, end time.Time) error { return nil }
+
+func Trunc2dp(f float64) float64 {
+	return math.Floor(f*100) / 100
+}

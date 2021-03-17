@@ -17,7 +17,7 @@ var SampleDeployments = []domain.Deployment{
 		ProjectNamespace: "test-group",
 		PipelineID:       1,
 		FinishedAt:       time.Date(2021, 3, 1, 12, 0, 0, 0, time.UTC),
-		Duration:         12.3,
+		Duration:         12,
 	},
 	{
 		ID:               2,
@@ -29,7 +29,7 @@ var SampleDeployments = []domain.Deployment{
 		ProjectNamespace: "test-group",
 		PipelineID:       2,
 		FinishedAt:       time.Date(2021, 3, 1, 13, 30, 0, 0, time.UTC),
-		Duration:         43.2,
+		Duration:         43,
 	},
 	{
 		ID:               3,
@@ -41,7 +41,7 @@ var SampleDeployments = []domain.Deployment{
 		ProjectNamespace: "test-group",
 		PipelineID:       3,
 		FinishedAt:       time.Date(2021, 3, 2, 13, 30, 0, 0, time.UTC),
-		Duration:         14.2,
+		Duration:         14,
 	},
 	{
 		ID:               4,
@@ -53,7 +53,7 @@ var SampleDeployments = []domain.Deployment{
 		ProjectNamespace: "test-group",
 		PipelineID:       4,
 		FinishedAt:       time.Date(2021, 3, 3, 10, 15, 0, 0, time.UTC),
-		Duration:         28.4,
+		Duration:         28,
 	},
 	{
 		ID:               5,
@@ -65,7 +65,7 @@ var SampleDeployments = []domain.Deployment{
 		ProjectNamespace: "test-group",
 		PipelineID:       5,
 		FinishedAt:       time.Date(2021, 3, 3, 10, 45, 0, 0, time.UTC),
-		Duration:         19.1,
+		Duration:         19,
 	},
 	{
 		ID:               6,
@@ -76,8 +76,8 @@ var SampleDeployments = []domain.Deployment{
 		ProjectPath:      "test-group/test-project",
 		ProjectNamespace: "test-group",
 		PipelineID:       6,
-		FinishedAt:       time.Date(2021, 3, 4, 10, 45, 0, 0, time.UTC),
-		Duration:         54.8,
+		FinishedAt:       time.Date(2021, 3, 4, 11, 0, 0, 0, time.UTC),
+		Duration:         54,
 	},
 	{
 		ID:               7,
@@ -88,8 +88,8 @@ var SampleDeployments = []domain.Deployment{
 		ProjectPath:      "test-group/test-project",
 		ProjectNamespace: "test-group",
 		PipelineID:       7,
-		FinishedAt:       time.Date(2021, 4, 3, 15, 5, 0, 0, time.UTC),
-		Duration:         123.2,
+		FinishedAt:       time.Date(2021, 3, 5, 15, 5, 0, 0, time.UTC),
+		Duration:         123,
 	},
 	{
 		ID:               8,
@@ -100,8 +100,8 @@ var SampleDeployments = []domain.Deployment{
 		ProjectPath:      "dummy-group/dummy-project",
 		ProjectNamespace: "dummy-group",
 		PipelineID:       8,
-		FinishedAt:       time.Date(2021, 4, 4, 15, 5, 0, 0, time.UTC),
-		Duration:         123.2,
+		FinishedAt:       time.Date(2021, 3, 5, 15, 10, 0, 0, time.UTC),
+		Duration:         123,
 	},
 	{
 		ID:               9,
@@ -112,8 +112,8 @@ var SampleDeployments = []domain.Deployment{
 		ProjectPath:      "test-group/test-project",
 		ProjectNamespace: "test-group",
 		PipelineID:       9,
-		FinishedAt:       time.Date(2021, 4, 7, 12, 25, 0, 0, time.UTC),
-		Duration:         43.7,
+		FinishedAt:       time.Date(2021, 3, 5, 16, 0, 0, 0, time.UTC),
+		Duration:         43,
 	},
 	{
 		ID:               10,
@@ -124,7 +124,7 @@ var SampleDeployments = []domain.Deployment{
 		ProjectPath:      "test-group/test-project",
 		ProjectNamespace: "test-group",
 		PipelineID:       10,
-		FinishedAt:       time.Date(2021, 4, 7, 14, 35, 0, 0, time.UTC),
-		Duration:         76.1,
+		FinishedAt:       time.Date(2021, 3, 9, 14, 35, 0, 0, time.UTC),
+		Duration:         76,
 	},
 }
