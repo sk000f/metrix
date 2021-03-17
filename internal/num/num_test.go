@@ -9,7 +9,7 @@ import (
 func TestNum(t *testing.T) {
 	t.Run("test truncate float down to 2 decimal places", func(t *testing.T) {
 		want := 0.25
-		got := num.Trunc2dp(0.2546)
+		got := num.To2dp(0.2546)
 
 		if got != want {
 			t.Errorf("got: %v; want %v", got, want)
@@ -18,7 +18,7 @@ func TestNum(t *testing.T) {
 
 	t.Run("test truncate float up to 2 decimal places", func(t *testing.T) {
 		want := 0.26
-		got := num.Trunc2dp(0.2645)
+		got := num.To2dp(0.2645)
 
 		if got != want {
 			t.Errorf("got: %v; want %v", got, want)

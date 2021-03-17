@@ -47,7 +47,7 @@ func (a *app) DeploymentFrequency(proj string, start time.Time, end time.Time) (
 	// count number of deployments and divide by number of days
 	df := float64(len(pDep)) / days
 
-	return num.Trunc2dp(df), nil
+	return num.To2dp(df), nil
 }
 
 func (a *app) LeadTime(start time.Time, end time.Time, proj string) (time.Time, error) {
