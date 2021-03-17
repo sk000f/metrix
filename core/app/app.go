@@ -38,9 +38,9 @@ func (a *app) DeploymentFrequency(proj string, start time.Time, end time.Time) (
 
 	// we only want to count deployments to the production environment
 	var pDep []domain.Deployment
-	for _, pd := range dep {
-		if pd.EnvironmentName == ci.Production {
-			pDep = append(pDep, pd)
+	for _, d := range dep {
+		if d.EnvironmentName == ci.Production {
+			pDep = append(pDep, d)
 		}
 	}
 
