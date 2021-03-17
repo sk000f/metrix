@@ -28,7 +28,7 @@ func (mR *RepositoryMock) GetByProjectAndDateRange(proj string, start time.Time,
 	var dep []domain.Deployment
 
 	for _, d := range mR.data {
-		if d.ProjectName == proj && d.FinishedAt.After(start) && d.FinishedAt.Before(end) {
+		if d.ProjectName == proj && d.FinishedAt.After(start) && d.FinishedAt.Before(end) && d.EnvironmentName == "production" {
 			dep = append(dep, d)
 		}
 	}
