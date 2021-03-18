@@ -1,9 +1,9 @@
 package app
 
 import (
-	"fmt"
 	"time"
 
+	"github.com/rs/zerolog/log"
 	"github.com/sk000f/metrix/core/domain"
 	"github.com/sk000f/metrix/core/ports"
 	"github.com/sk000f/metrix/internal/cicd"
@@ -28,7 +28,11 @@ func (a *app) DeploymentFrequency(proj string, start time.Time, end time.Time) (
 
 	dep, err := a.r.GetByProjectAndDateRange(proj, start, end)
 	if err != nil {
-		fmt.Print(err.Error())
+		log.Error().Stack().Err(err).
+			Str("project", proj).
+			Time("start", start).
+			Time("end", end).
+			Msg("app.DeploymentFrequency")
 		return 0.0, err
 	}
 
@@ -45,6 +49,13 @@ func (a *app) DeploymentFrequency(proj string, start time.Time, end time.Time) (
 	// is number of deployments divided by number of days
 	df := float64(len(pDep)) / days
 
+	log.Info().
+		Str("project", proj).
+		Time("start", start).
+		Time("end", end).
+		Int("deployment-frequency", int(num.To2dp(df))).
+		Msg("app.DeploymentFrequency finished")
+
 	return num.To2dp(df), nil
 }
 
@@ -55,9 +66,14 @@ func (a *app) LeadTime(proj string, start time.Time, end time.Time) (time.Time, 
 // ChangeFailRate calculates the percentage of deployments to a production
 // environment which are not successful, for the specified date range and project name
 func (a *app) ChangeFailRate(proj string, start time.Time, end time.Time) (int, error) {
+
 	dep, err := a.r.GetByProjectAndDateRange(proj, start, end)
 	if err != nil {
-		fmt.Print(err.Error())
+		log.Error().Stack().Err(err).
+			Str("project", proj).
+			Time("start", start).
+			Time("end", end).
+			Msg("app.ChangeFailRate")
 		return 0, err
 	}
 
@@ -74,6 +90,13 @@ func (a *app) ChangeFailRate(proj string, start time.Time, end time.Time) (int, 
 
 	// change fail rate is percentage of failed deployments
 	cfr := int(float64(f) / float64(len(pDep)) * 100)
+
+	log.Info().
+		Str("project", proj).
+		Time("start", start).
+		Time("end", end).
+		Int("change-fail-rate", cfr).
+		Msg("app.ChangeFailRate finished")
 
 	return cfr, nil
 }
