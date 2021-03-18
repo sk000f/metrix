@@ -6,7 +6,7 @@ import (
 
 	"github.com/sk000f/metrix/core/domain"
 	"github.com/sk000f/metrix/core/ports"
-	cicd "github.com/sk000f/metrix/internal/ci"
+	"github.com/sk000f/metrix/internal/cicd"
 	"github.com/sk000f/metrix/internal/num"
 )
 

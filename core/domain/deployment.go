@@ -3,7 +3,7 @@ package domain
 import (
 	"time"
 
-	cicd "github.com/sk000f/metrix/internal/ci"
+	"github.com/sk000f/metrix/internal/cicd"
 )
 
 type Deployment struct {
