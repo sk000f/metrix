@@ -60,6 +60,54 @@ func TestDeploymentFrequency(t *testing.T) {
 	})
 }
 
+func TestLeadTime(t *testing.T) {
+	t.Run("calculate lead time over 30 day period", func(t *testing.T) {
+		r := createMockRepository()
+		ci := createMockCIServer()
+
+		a := app.New(r, ci)
+
+		got, err := a.LeadTime(
+			"test-project",
+			time.Date(2021, 3, 1, 0, 0, 0, 0, time.UTC),
+			time.Date(2021, 3, 31, 0, 0, 0, 0, time.UTC),
+		)
+
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		want := 52
+
+		if got != want {
+			t.Errorf("got: %v; want %v", got, want)
+		}
+	})
+
+	t.Run("calculate lead time over 5 day period", func(t *testing.T) {
+		r := createMockRepository()
+		ci := createMockCIServer()
+
+		a := app.New(r, ci)
+
+		got, err := a.LeadTime(
+			"test-project",
+			time.Date(2021, 3, 1, 0, 0, 0, 0, time.UTC),
+			time.Date(2021, 3, 6, 0, 0, 0, 0, time.UTC),
+		)
+
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		want := 48
+
+		if got != want {
+			t.Errorf("got: %v; want %v", got, want)
+		}
+	})
+}
+
 func TestChangeFailRate(t *testing.T) {
 	t.Run("calculate change fail rate over 30 day period", func(t *testing.T) {
 		r := createMockRepository()

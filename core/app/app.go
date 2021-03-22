@@ -59,8 +59,34 @@ func (a *app) DeploymentFrequency(proj string, start time.Time, end time.Time) (
 	return num.To2dp(df), nil
 }
 
-func (a *app) LeadTime(proj string, start time.Time, end time.Time) (time.Time, error) {
-	return time.Now(), nil
+// LeadTime calculates the number of minutes for a deployment to complete from
+// code commit to production deployment, for the specified date range and project name
+func (a *app) LeadTime(proj string, start time.Time, end time.Time) (int, error) {
+
+	dep, err := a.r.GetByProjectAndDateRange(proj, start, end)
+	if err != nil {
+		log.Error().Stack().Err(err).
+			Str("project", proj).
+			Time("start", start).
+			Time("end", end).
+			Msg("app.LeadTime")
+		return 0, err
+	}
+
+	var pDep []domain.Deployment
+	var total int
+	for _, d := range dep {
+		if d.EnvironmentName == cicd.Production {
+			pDep = append(pDep, d)
+			total += d.Duration
+		}
+	}
+
+	// lead time is average number of minutes per deployment
+	// which is total deployment duration divided by number of deployments
+	lt := total / len(pDep)
+
+	return lt, nil
 }
 
 // ChangeFailRate calculates the percentage of deployments to a production
