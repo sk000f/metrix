@@ -38,16 +38,16 @@ func (a *app) DeploymentFrequency(proj string, start time.Time, end time.Time) (
 
 	days := end.Sub(start).Hours() / 24
 
-	var pDep []domain.Deployment
+	var c float64
 	for _, d := range dep {
 		if d.EnvironmentName == cicd.Production {
-			pDep = append(pDep, d)
+			c++
 		}
 	}
 
 	// deployment frequency (deploys per day)
 	// is number of deployments divided by number of days
-	df := float64(len(pDep)) / days
+	df := c / days
 
 	log.Info().
 		Str("project", proj).
