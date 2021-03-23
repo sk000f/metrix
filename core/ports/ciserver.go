@@ -7,8 +7,8 @@ import (
 )
 
 type CIServer interface {
-	GetAll() ([]domain.Deployment, error)
-	GetByProject(proj string) ([]domain.Deployment, error)
-	GetByDateRange(start time.Time, end time.Time) ([]domain.Deployment, error)
-	GetByProjectAndDateRange(proj string, start time.Time, end time.Time) ([]domain.Deployment, error)
+	GetAllDeployments() ([]domain.Deployment, error)
+	GetDeploymentsByProject(proj string) ([]domain.Deployment, error)
+	GetDeploymentsByDateRange(start time.Time, end time.Time) ([]domain.Deployment, error)
+	GetDeploymentsByProjectAndDateRange(proj string, start time.Time, end time.Time) ([]domain.Deployment, error)
 }

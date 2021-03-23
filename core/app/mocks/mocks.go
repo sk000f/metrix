@@ -46,19 +46,19 @@ func (mR *RepositoryMock) LoadData(d []domain.Deployment) {
 
 type CIServerMock struct{}
 
-func (ci *CIServerMock) GetAll() ([]domain.Deployment, error) {
+func (ci *CIServerMock) GetAllDeployments() ([]domain.Deployment, error) {
 	return nil, nil
 }
 
-func (ci *CIServerMock) GetByProject(proj string) ([]domain.Deployment, error) {
+func (ci *CIServerMock) GetDeploymentsByProject(proj string) ([]domain.Deployment, error) {
 	return nil, nil
 }
 
-func (ci *CIServerMock) GetByDateRange(start time.Time, end time.Time) ([]domain.Deployment, error) {
+func (ci *CIServerMock) GetDeploymentsByDateRange(start time.Time, end time.Time) ([]domain.Deployment, error) {
 	return nil, nil
 }
 
-func (ci *CIServerMock) GetByProjectAndDateRange(proj string, start time.Time, end time.Time) ([]domain.Deployment, error) {
+func (ci *CIServerMock) GetDeploymentsByProjectAndDateRange(proj string, start time.Time, end time.Time) ([]domain.Deployment, error) {
 	return nil, nil
 }
 
