@@ -73,18 +73,17 @@ func (a *app) LeadTime(proj string, start time.Time, end time.Time) (int, error)
 		return 0, err
 	}
 
-	var pDep []domain.Deployment
-	var total int
+	var c, t int
 	for _, d := range dep {
 		if d.EnvironmentName == cicd.Production {
-			pDep = append(pDep, d)
-			total += d.Duration
+			c++
+			t += d.Duration
 		}
 	}
 
 	// lead time is average number of minutes per deployment
 	// which is total deployment duration divided by number of deployments
-	lt := total / len(pDep)
+	lt := t / c
 
 	return lt, nil
 }
