@@ -4,7 +4,6 @@ import (
 	"time"
 
 	"github.com/rs/zerolog/log"
-	"github.com/sk000f/metrix/core/domain"
 	"github.com/sk000f/metrix/core/ports"
 	"github.com/sk000f/metrix/internal/cicd"
 	"github.com/sk000f/metrix/internal/num"
@@ -102,11 +101,10 @@ func (a *app) ChangeFailRate(proj string, start time.Time, end time.Time) (int, 
 		return 0, err
 	}
 
-	var pDep []domain.Deployment
-	var f int = 0
+	var c, f float64
 	for _, d := range dep {
 		if d.EnvironmentName == cicd.Production {
-			pDep = append(pDep, d)
+			c++
 			if d.Status == cicd.Failure {
 				f++
 			}
@@ -114,7 +112,7 @@ func (a *app) ChangeFailRate(proj string, start time.Time, end time.Time) (int, 
 	}
 
 	// change fail rate is percentage of failed deployments
-	cfr := int(float64(f) / float64(len(pDep)) * 100)
+	cfr := int(f / c * 100)
 
 	log.Info().
 		Str("project", proj).
