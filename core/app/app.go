@@ -128,6 +128,23 @@ func (a *app) MTTR(proj string, start time.Time, end time.Time) (time.Time, erro
 	return time.Now(), nil
 }
 
-func (a *app) UpdateDeployments() error { return nil }
+func (a *app) UpdateDeployments() error {
+
+	d, err := a.ci.GetAllDeployments()
+	if err != nil {
+		log.Error().Stack().Err(err).
+			Msg("app.UpdateDeployments")
+		return err
+	}
+
+	err = a.r.Update(d)
+	if err != nil {
+		log.Error().Stack().Err(err).
+			Msg("app.UpdateDeployments")
+		return err
+	}
+
+	return nil
+}
 
 func (a *app) UpdateDeploymentsForDateRange(start time.Time, end time.Time) error { return nil }

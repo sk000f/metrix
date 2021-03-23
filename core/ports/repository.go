@@ -11,5 +11,5 @@ type Repository interface {
 	GetByProject(proj string) ([]domain.Deployment, error)
 	GetByDateRange(start time.Time, end time.Time) ([]domain.Deployment, error)
 	GetByProjectAndDateRange(proj string, start time.Time, end time.Time) ([]domain.Deployment, error)
-	Update([]domain.Deployment) error
+	Update(d []domain.Deployment) error
 }

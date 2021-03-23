@@ -2,6 +2,7 @@ package app_test
 
 import (
 	"math"
+	"reflect"
 	"testing"
 	"time"
 
@@ -156,6 +157,32 @@ func TestChangeFailRate(t *testing.T) {
 	})
 }
 
+func TestUpdateDeployments(t *testing.T) {
+	t.Run("update all deployments", func(t *testing.T) {
+
+		r := createMockRepository()
+		r.ClearData()
+		ci := createMockCIServer()
+
+		a := app.New(r, ci)
+
+		// run update deployments
+		err := a.UpdateDeployments()
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		// check the repository contains the right deployments from the mock CI server
+		dCI, _ := ci.GetAllDeployments()
+		dR, _ := r.GetAll()
+
+		if !reflect.DeepEqual(dCI, dR) {
+			t.Errorf("deployments in repository do not match deployments in CI server")
+		}
+
+	})
+}
+
 func createMockRepository() *mocks.RepositoryMock {
 	r := &mocks.RepositoryMock{}
 	r.LoadData(data.SampleDeployments)
@@ -164,5 +191,6 @@ func createMockRepository() *mocks.RepositoryMock {
 
 func createMockCIServer() *mocks.CIServerMock {
 	ci := &mocks.CIServerMock{}
+	ci.LoadData(data.SampleDeployments)
 	return ci
 }

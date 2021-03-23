@@ -11,7 +11,7 @@ type RepositoryMock struct {
 }
 
 func (mR *RepositoryMock) GetAll() ([]domain.Deployment, error) {
-	return nil, nil
+	return mR.data, nil
 }
 
 func (mR *RepositoryMock) GetByProject(proj string) ([]domain.Deployment, error) {
@@ -36,7 +36,8 @@ func (mR *RepositoryMock) GetByProjectAndDateRange(proj string, start time.Time,
 	return dep, nil
 }
 
-func (mR *RepositoryMock) Update([]domain.Deployment) error {
+func (mR *RepositoryMock) Update(d []domain.Deployment) error {
+	mR.data = d
 	return nil
 }
 
@@ -44,10 +45,16 @@ func (mR *RepositoryMock) LoadData(d []domain.Deployment) {
 	mR.data = d
 }
 
-type CIServerMock struct{}
+func (mR *RepositoryMock) ClearData() {
+	mR.data = nil
+}
+
+type CIServerMock struct {
+	data []domain.Deployment
+}
 
 func (ci *CIServerMock) GetAllDeployments() ([]domain.Deployment, error) {
-	return nil, nil
+	return ci.data, nil
 }
 
 func (ci *CIServerMock) GetDeploymentsByProject(proj string) ([]domain.Deployment, error) {
@@ -62,6 +69,10 @@ func (ci *CIServerMock) GetDeploymentsByProjectAndDateRange(proj string, start t
 	return nil, nil
 }
 
-func (ci *CIServerMock) Update([]domain.Deployment) error {
+func (ci *CIServerMock) Update(d []domain.Deployment) error {
 	return nil
+}
+
+func (ci *CIServerMock) LoadData(d []domain.Deployment) {
+	ci.data = d
 }
