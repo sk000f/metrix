@@ -1,6 +1,13 @@
 # Metrix
 
-Calculate DORA metrics from CI server
+Calculate DORA metrics from your CI server:
+
+- Deployment Frequency
+- Lead Time
+- Change Fail Rate
+- Mean Time to Resolve (MTTR)
+
+Codebase includes a sample Grafana dashboard, but the application exposes an API so data can be consumed by any external system of your choice.
 
 ## Structure
 
