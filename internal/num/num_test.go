@@ -6,7 +6,7 @@ import (
 	"github.com/sk000f/metrix/internal/num"
 )
 
-func TestNum(t *testing.T) {
+func TestUnitNum(t *testing.T) {
 	t.Run("test truncate float down to 2 decimal places", func(t *testing.T) {
 		want := 0.25
 		got := num.To2dp(0.2546)

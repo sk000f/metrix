@@ -11,7 +11,7 @@ import (
 	"github.com/sk000f/metrix/resources/data"
 )
 
-func TestDeploymentFrequency(t *testing.T) {
+func TestUnitDeploymentFrequency(t *testing.T) {
 	t.Run("calculate deployment frequency over 30 day period", func(t *testing.T) {
 		r := createMockRepository()
 		ci := createMockCIServer()
@@ -61,7 +61,7 @@ func TestDeploymentFrequency(t *testing.T) {
 	})
 }
 
-func TestLeadTime(t *testing.T) {
+func TestUnitLeadTime(t *testing.T) {
 	t.Run("calculate lead time over 30 day period", func(t *testing.T) {
 		r := createMockRepository()
 		ci := createMockCIServer()
@@ -109,7 +109,7 @@ func TestLeadTime(t *testing.T) {
 	})
 }
 
-func TestChangeFailRate(t *testing.T) {
+func TestUnitChangeFailRate(t *testing.T) {
 	t.Run("calculate change fail rate over 30 day period", func(t *testing.T) {
 		r := createMockRepository()
 		ci := createMockCIServer()
@@ -157,7 +157,7 @@ func TestChangeFailRate(t *testing.T) {
 	})
 }
 
-func TestUpdateDeployments(t *testing.T) {
+func TestUnitUpdateDeployments(t *testing.T) {
 	t.Run("update all deployments", func(t *testing.T) {
 
 		r := createMockRepository()

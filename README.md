@@ -43,8 +43,14 @@ Contains the `main()` function and is where you can plug in the different adapte
 
 ## Running Tests
 
-Unit tests are implemented using the standard Go library so can be executed with the following command:
+Unit tests are implemented using the standard Go library so can be executed with the following command and flag:
 
 ```
-go test ./...
+go test ./... -run 'Unit'
+```
+
+Integration tests also use the standard library and can be executed with the following command and flag:
+
+```
+go test ./... -run 'Integration'
 ```
