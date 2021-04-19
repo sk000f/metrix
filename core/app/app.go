@@ -48,13 +48,6 @@ func (a *app) DeploymentFrequency(proj string, start time.Time, end time.Time) (
 	// is number of deployments divided by number of days
 	df := c / days
 
-	log.Info().
-		Str("project", proj).
-		Time("start", start).
-		Time("end", end).
-		Int("deployment-frequency", int(num.To2dp(df))).
-		Msg("app.DeploymentFrequency finished")
-
 	return num.To2dp(df), nil
 }
 
@@ -113,13 +106,6 @@ func (a *app) ChangeFailRate(proj string, start time.Time, end time.Time) (int, 
 
 	// change fail rate is percentage of failed deployments
 	cfr := int(f / c * 100)
-
-	log.Info().
-		Str("project", proj).
-		Time("start", start).
-		Time("end", end).
-		Int("change-fail-rate", cfr).
-		Msg("app.ChangeFailRate finished")
 
 	return cfr, nil
 }
