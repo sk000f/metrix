@@ -37,16 +37,16 @@ func (a *app) DeploymentFrequency(proj string, start time.Time, end time.Time) (
 
 	days := end.Sub(start).Hours() / 24
 
-	var c float64
+	var n float64
 	for _, d := range dep {
 		if d.EnvironmentName == cicd.Production {
-			c++
+			n++
 		}
 	}
 
 	// deployment frequency (deploys per day)
 	// is number of deployments divided by number of days
-	df := c / days
+	df := n / days
 
 	return num.To2dp(df), nil
 }
@@ -65,17 +65,17 @@ func (a *app) LeadTime(proj string, start time.Time, end time.Time) (int, error)
 		return 0, err
 	}
 
-	var c, t int
+	var n, t int
 	for _, d := range dep {
 		if d.EnvironmentName == cicd.Production {
-			c++
+			n++
 			t += d.Duration
 		}
 	}
 
 	// lead time is average number of minutes per deployment
 	// which is total deployment duration divided by number of deployments
-	lt := t / c
+	lt := t / n
 
 	return lt, nil
 }
@@ -94,18 +94,18 @@ func (a *app) ChangeFailRate(proj string, start time.Time, end time.Time) (int, 
 		return 0, err
 	}
 
-	var c, f float64
+	var n, f float64
 	for _, d := range dep {
 		if d.EnvironmentName == cicd.Production {
-			c++
+			n++
 			if d.Status == cicd.Failure {
 				f++
 			}
 		}
 	}
 
-	// change fail rate is percentage of failed deployments
-	cfr := int(f / c * 100)
+	// change fail rate is number of failed deployments as a percentage
+	cfr := int(f / n * 100)
 
 	return cfr, nil
 }
