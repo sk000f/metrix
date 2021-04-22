@@ -4,7 +4,21 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
+	"github.com/sk000f/metrix/core/ports"
 )
+
+type RestAPI struct {
+	srv    ports.Service
+	Router *mux.Router
+}
+
+func New(s ports.Service) *RestAPI {
+	r := InitRouter()
+	return &RestAPI{
+		srv:    s,
+		Router: r,
+	}
+}
 
 func DeploymentFrequency(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")

@@ -9,13 +9,13 @@ import (
 	"github.com/sk000f/metrix/internal/num"
 )
 
-type app struct {
+type App struct {
 	r  ports.Repository
 	ci ports.CIServer
 }
 
-func New(r ports.Repository, ci ports.CIServer) *app {
-	return &app{
+func New(r ports.Repository, ci ports.CIServer) *App {
+	return &App{
 		r:  r,
 		ci: ci,
 	}
@@ -23,7 +23,7 @@ func New(r ports.Repository, ci ports.CIServer) *app {
 
 // DeploymentFrequency calculates how many times per day a deployment to a production
 // environment occurs, for the specified date range and project name
-func (a *app) DeploymentFrequency(proj string, start time.Time, end time.Time) (float64, error) {
+func (a *App) DeploymentFrequency(proj string, start time.Time, end time.Time) (float64, error) {
 
 	dep, err := a.r.GetByProjectAndDateRange(proj, start, end)
 	if err != nil {
@@ -53,7 +53,7 @@ func (a *app) DeploymentFrequency(proj string, start time.Time, end time.Time) (
 
 // LeadTime calculates the number of minutes for a deployment to complete from
 // code commit to production deployment, for the specified date range and project name
-func (a *app) LeadTime(proj string, start time.Time, end time.Time) (int, error) {
+func (a *App) LeadTime(proj string, start time.Time, end time.Time) (int, error) {
 
 	dep, err := a.r.GetByProjectAndDateRange(proj, start, end)
 	if err != nil {
@@ -82,7 +82,7 @@ func (a *app) LeadTime(proj string, start time.Time, end time.Time) (int, error)
 
 // ChangeFailRate calculates the percentage of deployments to a production
 // environment which are not successful, for the specified date range and project name
-func (a *app) ChangeFailRate(proj string, start time.Time, end time.Time) (int, error) {
+func (a *App) ChangeFailRate(proj string, start time.Time, end time.Time) (int, error) {
 
 	dep, err := a.r.GetByProjectAndDateRange(proj, start, end)
 	if err != nil {
@@ -110,11 +110,11 @@ func (a *app) ChangeFailRate(proj string, start time.Time, end time.Time) (int, 
 	return cfr, nil
 }
 
-func (a *app) MTTR(proj string, start time.Time, end time.Time) (time.Time, error) {
+func (a *App) MTTR(proj string, start time.Time, end time.Time) (time.Time, error) {
 	return time.Now(), nil
 }
 
-func (a *app) UpdateDeployments() error {
+func (a *App) UpdateDeployments() error {
 
 	d, err := a.ci.GetAllDeployments()
 	if err != nil {
@@ -133,4 +133,6 @@ func (a *app) UpdateDeployments() error {
 	return nil
 }
 
-func (a *app) UpdateDeploymentsForDateRange(start time.Time, end time.Time) error { return nil }
+func (a *App) UpdateDeploymentsForDateRange(start time.Time, end time.Time) error {
+	return nil
+}

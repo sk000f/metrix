@@ -15,6 +15,14 @@ type GitLab struct {
 	Client *gl.Client
 }
 
+func New(t, URL string, c *gl.Client) *GitLab {
+	return &GitLab{
+		Token:  t,
+		URL:    URL,
+		Client: c,
+	}
+}
+
 func (g *GitLab) GetAllDeployments() ([]domain.Deployment, error) {
 
 	d := []domain.Deployment{}

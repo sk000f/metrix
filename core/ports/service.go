@@ -2,7 +2,7 @@ package ports
 
 import "time"
 
-type MetricsService interface {
+type Service interface {
 	DeploymentFrequency(proj string, start time.Time, end time.Time) (float64, error)
 	LeadTime(proj string, start time.Time, end time.Time) (int, error)
 	ChangeFailRate(proj string, start time.Time, end time.Time) (int, error)
