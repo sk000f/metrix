@@ -1,9 +1,13 @@
 package mongodb
 
 import (
+	"context"
 	"time"
 
+	"github.com/rs/zerolog/log"
 	"github.com/sk000f/metrix/core/domain"
+	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 // type Config struct {
@@ -14,10 +18,43 @@ import (
 // }
 
 type MongoDB struct {
+	c *mongo.Client
 }
 
-func New() *MongoDB {
-	return &MongoDB{}
+func New(conn string) (*MongoDB, error) {
+
+	db := &MongoDB{}
+
+	client, err := db.GetClient(conn)
+	if err != nil {
+		log.Error().Stack().Err(err).
+			Msg("mongodb.New")
+		return nil, err
+	}
+
+	db.c = client
+
+	return db, nil
+}
+
+func (m *MongoDB) GetClient(conn string) (*mongo.Client, error) {
+	clientOptions := options.Client().ApplyURI(conn)
+
+	client, err := mongo.Connect(context.TODO(), clientOptions)
+	if err != nil {
+		log.Error().Stack().Err(err).
+			Msg("mongodb.GetClient")
+		return nil, err
+	}
+
+	err = client.Ping(context.TODO(), nil)
+	if err != nil {
+		log.Error().Stack().Err(err).
+			Msg("mongodb.GetClient")
+		return nil, err
+	}
+
+	return client, nil
 }
 
 func (m *MongoDB) GetAll() ([]domain.Deployment, error) {

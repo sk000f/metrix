@@ -9,6 +9,7 @@ import (
 	"github.com/sk000f/metrix/adapters/ciserver/gitlab"
 	"github.com/sk000f/metrix/adapters/database/mongodb"
 	"github.com/sk000f/metrix/core/app"
+	"github.com/sk000f/metrix/core/ports"
 )
 
 func main() {
@@ -16,13 +17,23 @@ func main() {
 	log.Info().Msg("Metrix starting ...")
 
 	ci := gitlab.New("", "", nil)
-	db := mongodb.New()
+
+	db := setupDatabase("")
 
 	srv := app.New(db, ci)
 
 	rest := rest.New(srv)
 
 	log.Fatal().Err(http.ListenAndServe(":8080", rest.Router))
+}
+
+func setupDatabase(conn string) ports.Repository {
+	db, err := mongodb.New(conn)
+	if err != nil {
+		log.Fatal().Err(err)
+	}
+
+	return db
 }
 
 func configureLogging() {
