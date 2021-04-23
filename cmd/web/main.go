@@ -22,9 +22,9 @@ func main() {
 
 	srv := app.New(db, ci)
 
-	rest := rest.New(srv)
+	api := rest.New(srv)
 
-	log.Fatal().Err(http.ListenAndServe(":8080", rest.Router))
+	log.Fatal().Err(http.ListenAndServe(":8080", api.Router))
 }
 
 func setupDatabase(conn string) ports.Repository {
