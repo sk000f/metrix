@@ -22,7 +22,7 @@ func main() {
 
 	srv := setupAppCore(db, ci)
 
-	api := setupApi(srv)
+	api := setupAPI(srv)
 
 	log.Fatal().Err(http.ListenAndServe(":8080", api.Router))
 }
@@ -44,7 +44,7 @@ func setupAppCore(db ports.Repository, ci ports.CIServer) ports.Service {
 	return app.New(db, ci)
 }
 
-func setupApi(srv ports.Service) *rest.RestAPI {
+func setupAPI(srv ports.Service) *rest.RestAPI {
 	return rest.New(srv)
 }
 
