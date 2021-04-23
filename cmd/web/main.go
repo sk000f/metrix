@@ -16,7 +16,7 @@ func main() {
 	configureLogging()
 	log.Info().Msg("Metrix starting ...")
 
-	ci := gitlab.New("", "", nil)
+	ci := setupCIServer()
 
 	db := setupDatabase("")
 
@@ -25,6 +25,10 @@ func main() {
 	api := rest.New(srv)
 
 	log.Fatal().Err(http.ListenAndServe(":8080", api.Router))
+}
+
+func setupCIServer() ports.CIServer {
+	return gitlab.New("", "", nil)
 }
 
 func setupDatabase(conn string) ports.Repository {
