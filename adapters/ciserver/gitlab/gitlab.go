@@ -15,12 +15,18 @@ type GitLab struct {
 	Client *gl.Client
 }
 
-func New(t, URL string, c *gl.Client) *GitLab {
-	return &GitLab{
-		Token:  t,
-		URL:    URL,
-		Client: c,
+func New(t, URL string) (*GitLab, error) {
+
+	g := &GitLab{}
+
+	err := g.SetupClient(t, URL)
+	if err != nil {
+		log.Error().Stack().Err(err).
+			Msg("gitlab.GetAllDeployments")
+		return nil, err
 	}
+
+	return g, nil
 }
 
 func (g *GitLab) GetAllDeployments() ([]domain.Deployment, error) {
@@ -71,6 +77,7 @@ func (g *GitLab) GetAllDeployments() ([]domain.Deployment, error) {
 			}
 
 			if resp.CurrentPage >= resp.TotalPages {
+				opt.Page = 1
 				break
 			}
 
@@ -133,7 +140,7 @@ func (g *GitLab) SetupClient(token, baseURL string) error {
 	client, err := gl.NewClient(token, gl.WithBaseURL(baseURL))
 	if err != nil {
 		log.Error().Stack().Err(err).
-			Msg("gitlab.GetAllDeployments")
+			Msg("gitlab.SetupClient")
 		return err
 	}
 
