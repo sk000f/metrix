@@ -6,6 +6,7 @@ import (
 
 	"github.com/rs/zerolog/log"
 	"github.com/sk000f/metrix/core/domain"
+	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
@@ -74,5 +75,34 @@ func (m *MongoDB) GetByProjectAndDateRange(proj string, start time.Time, end tim
 }
 
 func (m *MongoDB) Update(d []domain.Deployment) error {
+
+	collection := m.c.Database("metrix").Collection("deployments")
+	updateOpts := options.Update().SetUpsert(true)
+
+	for _, dep := range d {
+		filter := bson.M{"deployment_id": dep.ID}
+
+		update := bson.M{
+			"$set": bson.M{
+				"deployment_id":     dep.ID,
+				"status":            dep.Status,
+				"environment_name":  dep.EnvironmentName,
+				"project_id":        dep.ProjectID,
+				"project_name":      dep.ProjectName,
+				"project_path":      dep.ProjectPath,
+				"project_namespace": dep.ProjectNamespace,
+				"pipeline_id":       dep.PipelineID,
+				"finished_at":       dep.FinishedAt,
+				"duration":          dep.Duration,
+			},
+		}
+		_, err := collection.UpdateOne(context.TODO(), filter, update, updateOpts)
+		if err != nil {
+			log.Error().Stack().Err(err).
+				Msg("mongodb.Update")
+			return err
+		}
+	}
+
 	return nil
 }
