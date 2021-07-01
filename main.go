@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"net/http"
 	"os"
 
@@ -16,7 +17,11 @@ import (
 )
 
 func main() {
+
+	flags := parseFlags()
+
 	configureLogging()
+
 	cfg := setupConfig()
 	log.Info().Msg("Metrix starting ...")
 
@@ -28,11 +33,13 @@ func main() {
 
 	api := setupAPI(srv)
 
-	//err := srv.UpdateDeployments()
-	//if err != nil {
-	//	log.Error().Stack().Err(err).
-	//		Msg("main")
-	//}
+	if flags["update"] == "y" {
+		err := srv.UpdateDeployments()
+		if err != nil {
+			log.Error().Stack().Err(err).
+				Msg("main")
+		}
+	}
 
 	log.Fatal().Err(http.ListenAndServe(":8080", api.Router))
 }
@@ -64,6 +71,20 @@ func setupAPI(srv ports.Service) *rest.RestAPI {
 
 func configureLogging() {
 	zerolog.TimeFieldFormat = zerolog.TimeFormatUnix
+}
+
+func parseFlags() map[string]string {
+	var update string
+
+	flag.StringVar(&update, "update", "n", "update CI data")
+
+	flag.Parse()
+
+	flags := map[string]string{
+		"update": update,
+	}
+
+	return flags
 }
 
 func setupConfig() *Config {
