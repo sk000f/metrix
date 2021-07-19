@@ -22,13 +22,13 @@ func (mR *RepositoryMock) GetByDateRange(start time.Time, end time.Time) ([]doma
 	return nil, nil
 }
 
-func (mR *RepositoryMock) GetByProjectAndDateRange(proj string, start time.Time, end time.Time) ([]domain.Deployment, error) {
+func (mR *RepositoryMock) GetByProjectAndDateRange(proj int, start time.Time, end time.Time) ([]domain.Deployment, error) {
 
 	// logic to filter data based on params
 	var dep []domain.Deployment
 
 	for _, d := range mR.data {
-		if d.ProjectName == proj && d.FinishedAt.After(start) && d.FinishedAt.Before(end) {
+		if d.ProjectID == proj && d.FinishedAt.After(start) && d.FinishedAt.Before(end) {
 			dep = append(dep, d)
 		}
 	}
@@ -75,4 +75,31 @@ func (ci *CIServerMock) Update(d []domain.Deployment) error {
 
 func (ci *CIServerMock) LoadData(d []domain.Deployment) {
 	ci.data = d
+}
+
+type ServiceMock struct {
+}
+
+func (s *ServiceMock) DeploymentFrequency(proj int, start time.Time, end time.Time) (float64, error) {
+	return 0.0, nil
+}
+
+func (s *ServiceMock) LeadTime(proj int, start time.Time, end time.Time) (int, error) {
+	return 0, nil
+}
+
+func (s *ServiceMock) ChangeFailRate(proj int, start time.Time, end time.Time) (int, error) {
+	return 0, nil
+}
+
+func (s *ServiceMock) MTTR(proj int, start time.Time, end time.Time) (time.Time, error) {
+	return time.Now(), nil
+}
+
+func (s *ServiceMock) UpdateDeployments() error {
+	return nil
+}
+
+func (s *ServiceMock) UpdateDeploymentsForDateRange(start time.Time, end time.Time) error {
+	return nil
 }

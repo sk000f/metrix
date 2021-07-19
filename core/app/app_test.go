@@ -19,7 +19,7 @@ func TestUnitDeploymentFrequency(t *testing.T) {
 		a := app.New(r, ci)
 
 		got, err := a.DeploymentFrequency(
-			"test-project",
+			1,
 			time.Date(2021, 3, 1, 0, 0, 0, 0, time.UTC),
 			time.Date(2021, 3, 31, 0, 0, 0, 0, time.UTC),
 		)
@@ -43,7 +43,7 @@ func TestUnitDeploymentFrequency(t *testing.T) {
 		a := app.New(r, ci)
 
 		got, err := a.DeploymentFrequency(
-			"test-project",
+			1,
 			time.Date(2021, 3, 1, 0, 0, 0, 0, time.UTC),
 			time.Date(2021, 3, 6, 0, 0, 0, 0, time.UTC),
 		)
@@ -69,7 +69,7 @@ func TestUnitLeadTime(t *testing.T) {
 		a := app.New(r, ci)
 
 		got, err := a.LeadTime(
-			"test-project",
+			1,
 			time.Date(2021, 3, 1, 0, 0, 0, 0, time.UTC),
 			time.Date(2021, 3, 31, 0, 0, 0, 0, time.UTC),
 		)
@@ -92,7 +92,7 @@ func TestUnitLeadTime(t *testing.T) {
 		a := app.New(r, ci)
 
 		got, err := a.LeadTime(
-			"test-project",
+			1,
 			time.Date(2021, 3, 1, 0, 0, 0, 0, time.UTC),
 			time.Date(2021, 3, 6, 0, 0, 0, 0, time.UTC),
 		)
@@ -117,7 +117,7 @@ func TestUnitChangeFailRate(t *testing.T) {
 		a := app.New(r, ci)
 
 		got, err := a.ChangeFailRate(
-			"test-project",
+			1,
 			time.Date(2021, 3, 1, 0, 0, 0, 0, time.UTC),
 			time.Date(2021, 3, 31, 0, 0, 0, 0, time.UTC),
 		)
@@ -140,7 +140,7 @@ func TestUnitChangeFailRate(t *testing.T) {
 		a := app.New(r, ci)
 
 		got, err := a.ChangeFailRate(
-			"test-project",
+			1,
 			time.Date(2021, 3, 1, 0, 0, 0, 0, time.UTC),
 			time.Date(2021, 3, 6, 0, 0, 0, 0, time.UTC),
 		)

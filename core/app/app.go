@@ -23,12 +23,12 @@ func New(r ports.Repository, ci ports.CIServer) *App {
 
 // DeploymentFrequency calculates how many times per day a deployment to a production
 // environment occurs, for the specified date range and project name
-func (a *App) DeploymentFrequency(proj string, start time.Time, end time.Time) (float64, error) {
+func (a *App) DeploymentFrequency(proj int, start time.Time, end time.Time) (float64, error) {
 
 	dep, err := a.r.GetByProjectAndDateRange(proj, start, end)
 	if err != nil {
 		log.Error().Stack().Err(err).
-			Str("project", proj).
+			Int("project", proj).
 			Time("start", start).
 			Time("end", end).
 			Msg("app.DeploymentFrequency")
@@ -53,12 +53,12 @@ func (a *App) DeploymentFrequency(proj string, start time.Time, end time.Time) (
 
 // LeadTime calculates the number of minutes for a deployment to complete from
 // code commit to production deployment, for the specified date range and project name
-func (a *App) LeadTime(proj string, start time.Time, end time.Time) (int, error) {
+func (a *App) LeadTime(proj int, start time.Time, end time.Time) (int, error) {
 
 	dep, err := a.r.GetByProjectAndDateRange(proj, start, end)
 	if err != nil {
 		log.Error().Stack().Err(err).
-			Str("project", proj).
+			Int("project", proj).
 			Time("start", start).
 			Time("end", end).
 			Msg("app.LeadTime")
@@ -82,12 +82,12 @@ func (a *App) LeadTime(proj string, start time.Time, end time.Time) (int, error)
 
 // ChangeFailRate calculates the percentage of deployments to a production
 // environment which are not successful, for the specified date range and project name
-func (a *App) ChangeFailRate(proj string, start time.Time, end time.Time) (int, error) {
+func (a *App) ChangeFailRate(proj int, start time.Time, end time.Time) (int, error) {
 
 	dep, err := a.r.GetByProjectAndDateRange(proj, start, end)
 	if err != nil {
 		log.Error().Stack().Err(err).
-			Str("project", proj).
+			Int("project", proj).
 			Time("start", start).
 			Time("end", end).
 			Msg("app.ChangeFailRate")
@@ -110,7 +110,7 @@ func (a *App) ChangeFailRate(proj string, start time.Time, end time.Time) (int, 
 	return cfr, nil
 }
 
-func (a *App) MTTR(proj string, start time.Time, end time.Time) (time.Time, error) {
+func (a *App) MTTR(proj int, start time.Time, end time.Time) (time.Time, error) {
 	return time.Now(), nil
 }
 

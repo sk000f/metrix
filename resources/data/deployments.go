@@ -95,7 +95,7 @@ var SampleDeployments = []domain.Deployment{
 		ID:               8,
 		Status:           "success",
 		EnvironmentName:  "production",
-		ProjectID:        1,
+		ProjectID:        2,
 		ProjectName:      "dummy-project",
 		ProjectPath:      "dummy-group/dummy-project",
 		ProjectNamespace: "dummy-group",
