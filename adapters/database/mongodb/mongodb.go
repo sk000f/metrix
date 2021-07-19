@@ -81,8 +81,6 @@ func (m *MongoDB) GetByProjectAndDateRange(proj int, start time.Time, end time.T
 		{"project_id", proj},
 		{"finished_at", bson.D{
 			{"$gte", start},
-		}},
-		{"finished_at", bson.D{
 			{"$lte", end},
 		}},
 	}
