@@ -78,10 +78,10 @@ func (m *MongoDB) GetByProjectAndDateRange(proj int, start time.Time, end time.T
 	var res []domain.Deployment
 
 	filter := bson.D{
-		{"project_id", proj},
-		{"finished_at", bson.D{
-			{"$gte", start},
-			{"$lte", end},
+		{Key: "project_id", Value: proj},
+		{Key: "finished_at", Value: bson.D{
+			{Key: "$gte", Value: start},
+			{Key: "$lte", Value: end},
 		}},
 	}
 
