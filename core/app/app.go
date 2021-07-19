@@ -98,7 +98,7 @@ func (a *App) ChangeFailRate(proj int, start time.Time, end time.Time) (int, err
 	for _, d := range dep {
 		if d.EnvironmentName == cicd.Production {
 			n++
-			if d.Status == cicd.Failure {
+			if d.Status != cicd.Success {
 				f++
 			}
 		}
