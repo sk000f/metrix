@@ -70,8 +70,51 @@ func (m *MongoDB) GetByDateRange(start time.Time, end time.Time) ([]domain.Deplo
 	return nil, nil
 }
 
-func (m *MongoDB) GetByProjectAndDateRange(proj string, start time.Time, end time.Time) ([]domain.Deployment, error) {
-	return nil, nil
+func (m *MongoDB) GetByProjectAndDateRange(proj int, start time.Time, end time.Time) ([]domain.Deployment, error) {
+
+	collection := m.c.Database("metrix").Collection("deployments")
+	findOpts := options.Find()
+
+	var res []domain.Deployment
+
+	filter := bson.D{
+		{"project_id", proj},
+		{"finished_at", bson.D{
+			{"$gte", start},
+		}},
+		{"finished_at", bson.D{
+			{"$lte", end},
+		}},
+	}
+
+	cur, err := collection.Find(context.TODO(), filter, findOpts)
+	if err != nil {
+		log.Error().Stack().Err(err).
+			Msg("mongodb.GetByProjectAndDateRange")
+		return nil, err
+	}
+
+	for cur.Next(context.TODO()) {
+		var d domain.Deployment
+		err := cur.Decode(&d)
+		if err != nil {
+			log.Error().Stack().Err(err).
+				Msg("mongodb.GetByProjectAndDateRange")
+			return nil, err
+		}
+
+		res = append(res, d)
+	}
+
+	if err := cur.Err(); err != nil {
+		log.Error().Stack().Err(err).
+			Msg("mongodb.GetByProjectAndDateRange")
+		return nil, err
+	}
+
+	cur.Close(context.TODO())
+
+	return res, nil
 }
 
 func (m *MongoDB) Update(d []domain.Deployment) error {
