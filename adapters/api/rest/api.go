@@ -37,13 +37,16 @@ func (api *RestAPI) LeadTime(w http.ResponseWriter, r *http.Request) {
 
 func (api *RestAPI) ChangeFailRate(w http.ResponseWriter, r *http.Request) {
 
+	// interval := r.URL.Query().Get("interval")
+	// proj := r.URL.Query().Get("project")
+
 	start := time.Date(2020, 7, 1, 0, 0, 0, 0, time.UTC)
 	end := time.Date(2021, 7, 31, 0, 0, 0, 0, time.UTC)
 
 	res, err := api.srv.ChangeFailRate(520, start, end)
 	if err != nil {
 		log.Error().Stack().Err(err).
-			Msg("mongodb.GetByProjectAndDateRange")
+			Msg("api.ChangeFailRate")
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte(`{"value":"error"}`))
@@ -63,6 +66,12 @@ func (api *RestAPI) MTTR(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte(`{"value":"123"}`))
 }
 
+func (api *RestAPI) Default(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	w.Write([]byte(`{"":""}`))
+}
+
 func (api *RestAPI) InitRouter() {
 	r := mux.NewRouter()
 
@@ -70,6 +79,6 @@ func (api *RestAPI) InitRouter() {
 	r.HandleFunc("/lead-time", api.LeadTime).Methods(http.MethodGet)
 	r.HandleFunc("/change-fail-rate", api.ChangeFailRate).Methods(http.MethodGet)
 	r.HandleFunc("/mttr", api.MTTR).Methods(http.MethodGet)
-
+	r.HandleFunc("/", api.Default).Methods(http.MethodGet)
 	api.Router = r
 }
