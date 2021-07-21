@@ -21,7 +21,7 @@ func TestGetDeploymentFrequency(t *testing.T) {
 
 	api.Router.ServeHTTP(res, req)
 
-	want := `{"value":"123"}`
+	want := `{"value":0.00}`
 	got := res.Body.String()
 
 	if got != want {
@@ -42,7 +42,7 @@ func TestGetLeadTime(t *testing.T) {
 
 	api.Router.ServeHTTP(res, req)
 
-	want := `{"value":"123"}`
+	want := `{"value":123}`
 	got := res.Body.String()
 
 	if got != want {
@@ -84,7 +84,7 @@ func TestGetMTTR(t *testing.T) {
 
 	api.Router.ServeHTTP(res, req)
 
-	want := `{"value":"123"}`
+	want := `{"value":123}`
 	got := res.Body.String()
 
 	if got != want {

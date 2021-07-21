@@ -23,19 +23,16 @@ func New(r ports.Repository, ci ports.CIServer) *App {
 
 // DeploymentFrequency calculates how many times per day a deployment to a production
 // environment occurs, for the specified date range and project name
-func (a *App) DeploymentFrequency(proj int, start time.Time, end time.Time) (float64, error) {
+func (a *App) DeploymentFrequency(proj int, days int) (float64, error) {
 
-	dep, err := a.r.GetByProjectAndDateRange(proj, start, end)
+	dep, err := a.r.GetByProjectAndInterval(proj, days)
 	if err != nil {
 		log.Error().Stack().Err(err).
 			Int("project", proj).
-			Time("start", start).
-			Time("end", end).
+			Int("days", days).
 			Msg("app.DeploymentFrequency")
 		return 0.0, err
 	}
-
-	days := end.Sub(start).Hours() / 24
 
 	var n float64
 	for _, d := range dep {
@@ -46,7 +43,7 @@ func (a *App) DeploymentFrequency(proj int, start time.Time, end time.Time) (flo
 
 	// deployment frequency (deploys per day)
 	// is number of deployments divided by number of days
-	df := n / days
+	df := n / float64(days)
 
 	return num.To2dp(df), nil
 }

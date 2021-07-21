@@ -36,6 +36,19 @@ func (mR *RepositoryMock) GetByProjectAndDateRange(proj int, start time.Time, en
 	return dep, nil
 }
 
+func (mR *RepositoryMock) GetByProjectAndInterval(proj int, days int) ([]domain.Deployment, error) {
+	// logic to filter data based on params
+	var dep []domain.Deployment
+
+	for _, d := range mR.data {
+		if d.ProjectID == proj && d.FinishedAt.After(time.Now().AddDate(0, 0, -days)) {
+			dep = append(dep, d)
+		}
+	}
+
+	return dep, nil
+}
+
 func (mR *RepositoryMock) Update(d []domain.Deployment) error {
 	mR.data = d
 	return nil
@@ -80,8 +93,8 @@ func (ci *CIServerMock) LoadData(d []domain.Deployment) {
 type ServiceMock struct {
 }
 
-func (s *ServiceMock) DeploymentFrequency(proj int, start time.Time, end time.Time) (float64, error) {
-	return 0.0, nil
+func (s *ServiceMock) DeploymentFrequency(proj int, days int) (float64, error) {
+	return 0.00, nil
 }
 
 func (s *ServiceMock) LeadTime(proj int, start time.Time, end time.Time) (int, error) {

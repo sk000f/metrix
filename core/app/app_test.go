@@ -18,17 +18,13 @@ func TestUnitDeploymentFrequency(t *testing.T) {
 
 		a := app.New(r, ci)
 
-		got, err := a.DeploymentFrequency(
-			1,
-			time.Date(2021, 3, 1, 0, 0, 0, 0, time.UTC),
-			time.Date(2021, 3, 31, 0, 0, 0, 0, time.UTC),
-		)
+		got, err := a.DeploymentFrequency(1, 90)
 
 		if err != nil {
 			t.Fatal(err)
 		}
 
-		want := 0.23
+		want := 0.07
 
 		if math.Abs(got) != math.Abs(want) {
 			t.Errorf("got %v; want %v", math.Abs(got), math.Abs(want))
@@ -42,17 +38,13 @@ func TestUnitDeploymentFrequency(t *testing.T) {
 
 		a := app.New(r, ci)
 
-		got, err := a.DeploymentFrequency(
-			1,
-			time.Date(2021, 3, 1, 0, 0, 0, 0, time.UTC),
-			time.Date(2021, 3, 6, 0, 0, 0, 0, time.UTC),
-		)
+		got, err := a.DeploymentFrequency(1, 90)
 
 		if err != nil {
 			t.Fatal(err)
 		}
 
-		want := 1.20
+		want := 0.07
 
 		if math.Abs(got) != math.Abs(want) {
 			t.Errorf("got %v; want %v", math.Abs(got), math.Abs(want))
@@ -68,10 +60,9 @@ func TestUnitLeadTime(t *testing.T) {
 
 		a := app.New(r, ci)
 
-		got, err := a.LeadTime(
-			1,
-			time.Date(2021, 3, 1, 0, 0, 0, 0, time.UTC),
-			time.Date(2021, 3, 31, 0, 0, 0, 0, time.UTC),
+		got, err := a.LeadTime(1,
+			time.Now().AddDate(0, 0, -30),
+			time.Now(),
 		)
 
 		if err != nil {
@@ -93,15 +84,15 @@ func TestUnitLeadTime(t *testing.T) {
 
 		got, err := a.LeadTime(
 			1,
-			time.Date(2021, 3, 1, 0, 0, 0, 0, time.UTC),
-			time.Date(2021, 3, 6, 0, 0, 0, 0, time.UTC),
+			time.Now().AddDate(0, 0, -5),
+			time.Now(),
 		)
 
 		if err != nil {
 			t.Fatal(err)
 		}
 
-		want := 48
+		want := 52
 
 		if got != want {
 			t.Errorf("got: %v; want %v", got, want)
@@ -118,8 +109,8 @@ func TestUnitChangeFailRate(t *testing.T) {
 
 		got, err := a.ChangeFailRate(
 			1,
-			time.Date(2021, 3, 1, 0, 0, 0, 0, time.UTC),
-			time.Date(2021, 3, 31, 0, 0, 0, 0, time.UTC),
+			time.Now().AddDate(0, 0, -30),
+			time.Now(),
 		)
 
 		if err != nil {
@@ -141,15 +132,15 @@ func TestUnitChangeFailRate(t *testing.T) {
 
 		got, err := a.ChangeFailRate(
 			1,
-			time.Date(2021, 3, 1, 0, 0, 0, 0, time.UTC),
-			time.Date(2021, 3, 6, 0, 0, 0, 0, time.UTC),
+			time.Now().AddDate(0, 0, -5),
+			time.Now(),
 		)
 
 		if err != nil {
 			t.Fatal(err)
 		}
 
-		want := 16
+		want := 14
 
 		if got != want {
 			t.Errorf("got: %v; want: %v", got, want)
