@@ -54,3 +54,11 @@ Integration tests also use the standard library and can be executed with the fol
 ```
 go test ./... -run 'Integration'
 ```
+
+## Grafana
+
+To run Grafana in a Docker container and configure the required plugin for the JSON API data source:
+
+```
+docker run -d -p 3000:3000 --name grafana -e "GF_INSTALL_PLUGINS=marcusolsson-json-datasource" grafana/grafana
+```
