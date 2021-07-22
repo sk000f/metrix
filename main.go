@@ -23,7 +23,6 @@ func main() {
 	configureLogging()
 
 	cfg := setupConfig()
-	log.Info().Msg("Metrix starting ...")
 
 	ci := setupCIServer(cfg)
 
@@ -36,8 +35,7 @@ func main() {
 	if flags["update"] == "y" {
 		err := srv.UpdateDeployments()
 		if err != nil {
-			log.Error().Stack().Err(err).
-				Msg("main")
+			log.Error().Stack().Err(err)
 		}
 	}
 
@@ -92,8 +90,7 @@ func setupConfig() *Config {
 
 	err := godotenv.Load()
 	if err != nil {
-		log.Error().Stack().Err(err).
-			Msg("main.setupConfig")
+		log.Error().Stack().Err(err)
 	}
 
 	cfg.GitLabURL = os.Getenv("METRIX_GITLAB_URL")

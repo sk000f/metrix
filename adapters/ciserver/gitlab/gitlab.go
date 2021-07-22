@@ -21,8 +21,7 @@ func New(t, URL string) (*GitLab, error) {
 
 	err := g.SetupClient(t, URL)
 	if err != nil {
-		log.Error().Stack().Err(err).
-			Msg("gitlab.GetAllDeployments")
+		log.Error().Stack().Err(err)
 		return nil, err
 	}
 
@@ -35,8 +34,7 @@ func (g *GitLab) GetAllDeployments() ([]domain.Deployment, error) {
 
 	p, err := g.getAllProjects()
 	if err != nil {
-		log.Error().Stack().Err(err).
-			Msg("gitlab.GetAllDeployments")
+		log.Error().Stack().Err(err)
 		return nil, err
 	}
 
@@ -47,8 +45,7 @@ func (g *GitLab) GetAllDeployments() ([]domain.Deployment, error) {
 
 			deployments, resp, err := g.Client.Deployments.ListProjectDeployments(proj.ID, opt)
 			if err != nil {
-				log.Error().Stack().Err(err).
-					Msg("gitlab.GetAllDeployments")
+				log.Error().Stack().Err(err)
 				return nil, err
 			}
 
@@ -110,8 +107,7 @@ func (g *GitLab) getAllProjects() ([]Project, error) {
 
 		projects, resp, err := g.Client.Projects.ListProjects(opt)
 		if err != nil {
-			log.Error().Stack().Err(err).
-				Msg("gitlab.getAllProjects")
+			log.Error().Stack().Err(err)
 			return nil, err
 		}
 
@@ -139,8 +135,7 @@ func (g *GitLab) getAllProjects() ([]Project, error) {
 func (g *GitLab) SetupClient(token, baseURL string) error {
 	client, err := gl.NewClient(token, gl.WithBaseURL(baseURL))
 	if err != nil {
-		log.Error().Stack().Err(err).
-			Msg("gitlab.SetupClient")
+		log.Error().Stack().Err(err)
 		return err
 	}
 

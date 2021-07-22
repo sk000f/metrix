@@ -28,8 +28,7 @@ func New(conn string) (*MongoDB, error) {
 
 	client, err := db.GetClient(conn)
 	if err != nil {
-		log.Error().Stack().Err(err).
-			Msg("mongodb.New")
+		log.Error().Stack().Err(err)
 		return nil, err
 	}
 
@@ -43,15 +42,13 @@ func (m *MongoDB) GetClient(conn string) (*mongo.Client, error) {
 
 	client, err := mongo.Connect(context.TODO(), clientOptions)
 	if err != nil {
-		log.Error().Stack().Err(err).
-			Msg("mongodb.GetClient")
+		log.Error().Stack().Err(err)
 		return nil, err
 	}
 
 	err = client.Ping(context.TODO(), nil)
 	if err != nil {
-		log.Error().Stack().Err(err).
-			Msg("mongodb.GetClient")
+		log.Error().Stack().Err(err)
 		return nil, err
 	}
 
@@ -87,8 +84,7 @@ func (m *MongoDB) GetByProjectAndDateRange(proj int, start time.Time, end time.T
 
 	cur, err := collection.Find(context.TODO(), filter, findOpts)
 	if err != nil {
-		log.Error().Stack().Err(err).
-			Msg("mongodb.GetByProjectAndDateRange")
+		log.Error().Stack().Err(err)
 		return nil, err
 	}
 
@@ -96,8 +92,7 @@ func (m *MongoDB) GetByProjectAndDateRange(proj int, start time.Time, end time.T
 		var d domain.Deployment
 		err := cur.Decode(&d)
 		if err != nil {
-			log.Error().Stack().Err(err).
-				Msg("mongodb.GetByProjectAndDateRange")
+			log.Error().Stack().Err(err)
 			return nil, err
 		}
 
@@ -105,8 +100,7 @@ func (m *MongoDB) GetByProjectAndDateRange(proj int, start time.Time, end time.T
 	}
 
 	if err := cur.Err(); err != nil {
-		log.Error().Stack().Err(err).
-			Msg("mongodb.GetByProjectAndDateRange")
+		log.Error().Stack().Err(err)
 		return nil, err
 	}
 
@@ -131,8 +125,7 @@ func (m *MongoDB) GetByProjectAndInterval(proj int, days int) ([]domain.Deployme
 
 	cur, err := collection.Find(context.TODO(), filter, findOpts)
 	if err != nil {
-		log.Error().Stack().Err(err).
-			Msg("mongodb.GetByProjectAndDateRange")
+		log.Error().Stack().Err(err)
 		return nil, err
 	}
 
@@ -140,8 +133,7 @@ func (m *MongoDB) GetByProjectAndInterval(proj int, days int) ([]domain.Deployme
 		var d domain.Deployment
 		err := cur.Decode(&d)
 		if err != nil {
-			log.Error().Stack().Err(err).
-				Msg("mongodb.GetByProjectAndDateRange")
+			log.Error().Stack().Err(err)
 			return nil, err
 		}
 
@@ -149,8 +141,7 @@ func (m *MongoDB) GetByProjectAndInterval(proj int, days int) ([]domain.Deployme
 	}
 
 	if err := cur.Err(); err != nil {
-		log.Error().Stack().Err(err).
-			Msg("mongodb.GetByProjectAndDateRange")
+		log.Error().Stack().Err(err)
 		return nil, err
 	}
 
@@ -183,8 +174,7 @@ func (m *MongoDB) Update(d []domain.Deployment) error {
 		}
 		_, err := collection.UpdateOne(context.TODO(), filter, update, updateOpts)
 		if err != nil {
-			log.Error().Stack().Err(err).
-				Msg("mongodb.Update")
+			log.Error().Stack().Err(err)
 			return err
 		}
 	}

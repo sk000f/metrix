@@ -28,8 +28,7 @@ func (api *RestAPI) DeploymentFrequency(w http.ResponseWriter, r *http.Request) 
 
 	res, err := api.srv.DeploymentFrequency(448, 90)
 	if err != nil {
-		log.Error().Stack().Err(err).
-			Msg("api.DeploymentFrequency")
+		log.Error().Stack().Err(err)
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte(`{"value":"error"}`))
@@ -59,8 +58,7 @@ func (api *RestAPI) ChangeFailRate(w http.ResponseWriter, r *http.Request) {
 
 	res, err := api.srv.ChangeFailRate(520, start, end)
 	if err != nil {
-		log.Error().Stack().Err(err).
-			Msg("api.ChangeFailRate")
+		log.Error().Stack().Err(err)
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte(`{"value":"error"}`))

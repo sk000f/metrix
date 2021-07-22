@@ -29,8 +29,7 @@ func (a *App) DeploymentFrequency(proj int, days int) (float64, error) {
 	if err != nil {
 		log.Error().Stack().Err(err).
 			Int("project", proj).
-			Int("days", days).
-			Msg("app.DeploymentFrequency")
+			Int("days", days)
 		return 0.0, err
 	}
 
@@ -57,8 +56,7 @@ func (a *App) LeadTime(proj int, start time.Time, end time.Time) (int, error) {
 		log.Error().Stack().Err(err).
 			Int("project", proj).
 			Time("start", start).
-			Time("end", end).
-			Msg("app.LeadTime")
+			Time("end", end)
 		return 0, err
 	}
 
@@ -86,8 +84,7 @@ func (a *App) ChangeFailRate(proj int, start time.Time, end time.Time) (int, err
 		log.Error().Stack().Err(err).
 			Int("project", proj).
 			Time("start", start).
-			Time("end", end).
-			Msg("app.ChangeFailRate")
+			Time("end", end)
 		return 0, err
 	}
 
@@ -115,15 +112,13 @@ func (a *App) UpdateDeployments() error {
 
 	d, err := a.ci.GetAllDeployments()
 	if err != nil {
-		log.Error().Stack().Err(err).
-			Msg("app.UpdateDeployments")
+		log.Error().Stack().Err(err)
 		return err
 	}
 
 	err = a.r.Update(d)
 	if err != nil {
-		log.Error().Stack().Err(err).
-			Msg("app.UpdateDeployments")
+		log.Error().Stack().Err(err)
 		return err
 	}
 
