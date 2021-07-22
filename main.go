@@ -39,7 +39,8 @@ func main() {
 		}
 	}
 
-	log.Fatal().Err(http.ListenAndServe(":8080", api.Router))
+	log.Info().Msgf("metrix starting on port %v ...", cfg.Port)
+	log.Fatal().Err(http.ListenAndServe(":"+cfg.Port, api.Router))
 }
 
 func setupCIServer(cfg *Config) ports.CIServer {
@@ -96,6 +97,7 @@ func setupConfig() *Config {
 	cfg.GitLabURL = os.Getenv("METRIX_GITLAB_URL")
 	cfg.GitLabToken = os.Getenv("METRIX_GITLAB_TOKEN")
 	cfg.MongoConn = os.Getenv("METRIX_MONGO_CONN")
+	cfg.Port = os.Getenv("METRIX_PORT")
 
 	return cfg
 }
@@ -104,4 +106,5 @@ type Config struct {
 	GitLabURL   string
 	GitLabToken string
 	MongoConn   string
+	Port        string
 }
