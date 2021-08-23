@@ -1,6 +1,7 @@
 package gitlab
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/rs/zerolog/log"
@@ -45,8 +46,16 @@ func (g *GitLab) GetAllDeployments() ([]domain.Deployment, error) {
 
 			deployments, resp, err := g.Client.Deployments.ListProjectDeployments(proj.ID, opt)
 			if err != nil {
-				log.Error().Stack().Err(err)
-				return nil, err
+
+				if errVal, ok := err.(*gl.ErrorResponse); ok {
+					if errVal.Response.StatusCode == 403 {
+						// this is due to the specific GitLab project not having the Operations section enabled
+						log.Info().Msg(fmt.Sprintf("GitLab project %v with ID %v does not have Operations section enabled", proj.Name, proj.ID))
+					}
+				} else {
+					log.Error().Stack().Err(err)
+					return nil, err
+				}
 			}
 
 			for _, dep := range deployments {
