@@ -41,6 +41,14 @@ Some common resources used throughout the application such as global constants a
 
 Contains the `main()` function and is where you can plug in the different adapters for your use case.
 
+## Command Line Flags
+
+```
+-update=y
+```
+
+Setting the update flag as above will cause the app to load updated data from GitLab on startup. Default value is `n` and default behaviour is to not load data on startup.
+
 ## Running Tests
 
 Unit tests are implemented using the standard Go library so can be executed with the following command and flag:
